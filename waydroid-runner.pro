@@ -38,7 +38,6 @@ SOURCES += \
 
 OTHER_FILES += \
     qml/main.qml \
-    qml/LabelC.qml \
     qml/MainPage.qml \
     qml/WindowContainer.qml \
 

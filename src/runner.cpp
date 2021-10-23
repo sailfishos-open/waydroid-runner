@@ -53,6 +53,8 @@ Runner::Runner(QString wayland_socket, QObject *parent):
   QObject(parent),
   m_wayland_socket(wayland_socket)
 {
+  m_status = tr("Initializing");
+
   // Wayland
   QProcessEnvironment env = QProcessEnvironment::systemEnvironment();
   env.insert("WAYLAND_DISPLAY", wayland_socket);
@@ -100,6 +102,8 @@ void Runner::start()
     }
 
   m_process_session->start(WAYDROID_PATH, QStringList() << "session" << "start");
+  m_status = tr("Starting Android session");
+  emit statusChanged();
 }
 
 void Runner::onCheckSession()
@@ -121,9 +125,14 @@ void Runner::onCheckSession()
     }
 
   if (session && container)
-    m_process_fullui->start(WAYDROID_PATH, QStringList() << "show-full-ui");
+    {
+      // this called only once as timer single shots will not be requested
+      m_process_fullui->start(WAYDROID_PATH, QStringList() << "show-full-ui");
+      m_status = tr("Waiting for Android UI");
+      emit statusChanged();
+    }
   else
-    QTimer::singleShot(1500, this, &Runner::onCheckSession);
+    QTimer::singleShot(2000, this, &Runner::onCheckSession);
 }
 
 void Runner::onError(QProcess::ProcessError /*error*/)
@@ -149,6 +158,14 @@ void Runner::onFinished(int exitCode, QProcess::ExitStatus exitStatus)
       emit exitCodeChanged(m_exitCode);
     }
 
+  if (m_crashed)
+    m_status = tr("Android session crashed");
+  else if (m_exitCode)
+    m_status = tr("Android session finished with the exit code %1").arg(m_exitCode);
+  else
+    m_status = tr("Android session finished");
+
+  emit statusChanged();
   emit exit();
 }
 

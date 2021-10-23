@@ -49,6 +49,7 @@ class Runner : public QObject
 
   Q_PROPERTY(bool crashed READ crashed NOTIFY crashedChanged)
   Q_PROPERTY(int  exitCode READ exitCode NOTIFY exitCodeChanged)
+  Q_PROPERTY(QString status READ status NOTIFY statusChanged)
 
 public:
   Runner(QString wayland_socket, QObject *parent=nullptr);
@@ -58,10 +59,12 @@ public:
 
   bool crashed() const { return m_crashed; }
   int  exitCode() const { return m_exitCode; }
+  QString status() const { return m_status; }
 
 signals:
   void crashedChanged(bool crashed);
   void exitCodeChanged(int exitCode);
+  void statusChanged();
 
   void exit();
 
@@ -76,6 +79,8 @@ protected:
   QProcess   *m_process_session{nullptr};
   QProcess   *m_process_fullui{nullptr};
   QString     m_wayland_socket;
+
+  QString     m_status;
   bool        m_crashed;
   int         m_exitCode;
 };

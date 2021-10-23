@@ -57,21 +57,12 @@ Page {
         size: BusyIndicatorSize.Large
     }
 
-    LabelC {
-        id: busyInfoMessage
-        anchors.top: busyInd.bottom
-        anchors.topMargin: Theme.paddingLarge
-        horizontalAlignment: Text.AlignHCenter
-        text: qsTr("Starting Android session")
-        visible: busyInd.running
-    }
-
     // Start and end notification
     Image {
         anchors.centerIn: busyInd
         source: Qt.resolvedUrl("icons/waydroid.png")
         sourceSize.width: busyInd.width / 2
-        visible: (!appStarted || appFinished)
+        visible: !appStarted || appFinished
     }
 
     Label {
@@ -82,7 +73,8 @@ Page {
         font.pixelSize: Theme.fontSizeLarge
         horizontalAlignment: Text.AlignHCenter
         verticalAlignment: Text.AlignVCenter
-        visible: text
+        text: runner.status
+        visible: !appStarted || appFinished
         width: root.width - 2*Theme.horizontalPageMargin
         wrapMode: Text.WordWrap
     }
@@ -91,14 +83,6 @@ Page {
     Connections {
         target: runner
         onExit: {
-            if (runner.crashed)
-                hintLabel.text = qsTr("Android session crashed");
-            else {
-                if (runner.exitCode)
-                    hintLabel.text = qsTr("Android session finished with exit code %1").arg(runner.exitCode);
-                else
-                    hintLabel.text = qsTr("Android session finished");
-            }
             appFinished = true;
             busyInd.running = false;
         }

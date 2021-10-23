@@ -2,24 +2,34 @@
 <!DOCTYPE TS>
 <TS version="2.1" language="de_DE">
 <context>
-    <name>MainPage</name>
+    <name>Runner</name>
     <message>
-        <location filename="../qml/MainPage.qml" line="65"/>
+        <location filename="../src/runner.cpp" line="56"/>
+        <source>Initializing</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../src/runner.cpp" line="105"/>
         <source>Starting Android session</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qml/MainPage.qml" line="95"/>
+        <location filename="../src/runner.cpp" line="131"/>
+        <source>Waiting for Android UI</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../src/runner.cpp" line="162"/>
         <source>Android session crashed</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qml/MainPage.qml" line="98"/>
-        <source>Android session finished with exit code %1</source>
+        <location filename="../src/runner.cpp" line="164"/>
+        <source>Android session finished with the exit code %1</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qml/MainPage.qml" line="100"/>
+        <location filename="../src/runner.cpp" line="166"/>
         <source>Android session finished</source>
         <translation type="unfinished"></translation>
     </message>
