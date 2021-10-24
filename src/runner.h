@@ -69,6 +69,9 @@ signals:
   void exit();
 
 protected:
+  void checkStatus();
+
+protected:
   void onError(QProcess::ProcessError error);
   void onFinished(int /*exitCode*/, QProcess::ExitStatus exitStatus);
   void onCheckSession();
@@ -81,6 +84,9 @@ protected:
   QString     m_wayland_socket;
 
   QString     m_status;
+  bool        m_status_session_running{false};
+  bool        m_status_container_running{false};
+  QString     m_status_wayland_socket;
   bool        m_crashed;
   int         m_exitCode;
 };

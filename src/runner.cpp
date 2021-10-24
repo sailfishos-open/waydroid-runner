@@ -95,9 +95,19 @@ Runner::~Runner()
 
 void Runner::start()
 {
+  // shouldn't happen
   if (!m_process_session)
     {
-      std::cerr << "Session process not available, cannot start\n";
+      m_status = tr("Session process not available, cannot start");
+      emit statusChanged();
+      return;
+    }
+
+  checkStatus();
+  if (m_status_session_running)
+    {
+      m_status = tr("Android session started already. Stop that session and restart this application.");
+      emit statusChanged();
       return;
     }
 
@@ -106,26 +116,45 @@ void Runner::start()
   emit statusChanged();
 }
 
-void Runner::onCheckSession()
+void Runner::checkStatus()
 {
-  // check if session is running
   QProcess check;
-  bool container = false;
-  bool session = false;
+  m_status_container_running = false;
+  m_status_session_running = false;
+  m_status_wayland_socket = QString();
 
   check.start(WAYDROID_PATH, QStringList() << "status");
   check.waitForFinished();
   auto stdout = check.readAllStandardOutput().split('\n');
+  QString wd = QStringLiteral("Wayland display:");
   for (QString line: stdout)
     {
       if (line.indexOf("Container:") >= 0 && line.indexOf("RUNNING") > 0)
-        container = true;
+        m_status_container_running = true;
       if (line.indexOf("Session:") >= 0 && line.indexOf("RUNNING") > 0)
-        session = true;
+        m_status_session_running = true;
+      int wdi = line.indexOf(wd);
+      if (wdi >= 0)
+        m_status_wayland_socket = line.mid(wdi + wd.length()).trimmed();
     }
+}
 
-  if (session && container)
+void Runner::onCheckSession()
+{
+  // check if session is running
+  checkStatus();
+  if (m_status_session_running && m_status_container_running)
     {
+      qDebug() << "Current Wayland socket: " << m_status_wayland_socket;
+      if (m_wayland_socket != m_status_wayland_socket)
+        {
+          std::cerr << "Android session running using Wayland display: " << m_status_wayland_socket.toStdString() << "\n"
+                    << "Expected value: " << m_wayland_socket.toStdString() << std::endl;
+          m_status = tr("Unexpected Wayland display setting for running Android session. Stopping the execution.");
+          emit statusChanged();
+          return;
+        }
+
       // this called only once as timer single shots will not be requested
       m_process_fullui->start(WAYDROID_PATH, QStringList() << "show-full-ui");
       m_status = tr("Waiting for Android UI");
