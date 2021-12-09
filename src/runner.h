@@ -74,7 +74,7 @@ public:
   Q_INVOKABLE void stopSession();
 
   bool crashed() const { return m_crashed; }
-  int  exitCode() const { return m_exitCode; }
+  int  exitCode() const { return m_exit_code; }
   QString status() const { return m_status; }
   Status statusCode() const { return m_status_code; }
 
@@ -106,7 +106,7 @@ protected:
   bool        m_status_container_running{false};
   QString     m_status_wayland_socket;
   bool        m_crashed;
-  int         m_exitCode;
+  int         m_exit_code;
 
 };
 

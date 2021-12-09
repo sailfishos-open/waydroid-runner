@@ -194,17 +194,17 @@ void Runner::onFinished(int exitCode, QProcess::ExitStatus exitStatus)
       emit crashedChanged(m_crashed);
     }
 
-  if (m_exitCode != exitCode)
+  if (m_exit_code != exitCode)
     {
-      m_exitCode = exitCode;
-      emit exitCodeChanged(m_exitCode);
+      m_exit_code = exitCode;
+      emit exitCodeChanged(m_exit_code);
     }
 
   if (m_crashed) {
     m_status = tr("Android session crashed");
     m_status_code = Status::ErrorCrashed;
-  } else if (m_exitCode) {
-    m_status = tr("Android session finished with the exit code %1").arg(m_exitCode);
+  } else if (m_exit_code) {
+    m_status = tr("Android session finished with the exit code %1").arg(m_exit_code);
     m_status_code = Status::ErrorExited;
   } else {
     m_status = tr("Android session finished");
