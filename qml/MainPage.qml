@@ -79,12 +79,34 @@ Page {
         wrapMode: Text.WordWrap
     }
 
+    Button {
+        anchors.top: hintLabel.bottom
+        anchors.topMargin: Theme.paddingLarge
+        anchors.horizontalCenter: parent.horizontalCenter
+        text: runner.statusCode == -2 ? qsTr("Stop Waydroid Session") : qsTr("Start Waydroid Session")
+        visible: runner.statusCode == -2 || runner.statusCode == 0
+
+        onClicked: {
+            if (runner.statusCode == -2) {
+                runner.stopSession();
+            } else if (runner.statusCode == 0) {
+                runner.start();
+                busyInd.running = true;
+            } else {
+                console.log("Unexpected code", runner.statusCode);
+            }
+        }
+    }
+
     // Connections and signal handlers
     Connections {
         target: runner
         onExit: {
             appFinished = true;
             busyInd.running = false;
+        }
+        onStatusChanged: {
+            console.log("Status: ", runner.statusCode, runner.status);
         }
     }
 
