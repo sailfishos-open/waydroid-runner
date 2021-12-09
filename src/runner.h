@@ -50,9 +50,23 @@ class Runner : public QObject
   Q_PROPERTY(bool crashed READ crashed NOTIFY crashedChanged)
   Q_PROPERTY(int  exitCode READ exitCode NOTIFY exitCodeChanged)
   Q_PROPERTY(QString status READ status NOTIFY statusChanged)
-  Q_PROPERTY(int statusCode READ statusCode NOTIFY statusChanged)
+  Q_PROPERTY(Status statusCode READ statusCode NOTIFY statusChanged)
 
 public:
+  enum class Status
+  {
+    ErrorExited = -5,
+    ErrorCrashed = -4,
+    ErrorUnexpected = -3,
+    ErrorSessionRunning = -2,
+    ErrorSessionNotAvailable = -1,
+    Idle = 0,
+    StartingSession = 1,
+    WaitingForUI= 2,
+    StoppingSession = 3,
+  };
+  Q_ENUM(Status);
+
   Runner(QString wayland_socket, QObject *parent=nullptr);
   virtual ~Runner();
 
@@ -62,7 +76,7 @@ public:
   bool crashed() const { return m_crashed; }
   int  exitCode() const { return m_exitCode; }
   QString status() const { return m_status; }
-  int statusCode() const { return m_statusCode; }
+  Status statusCode() const { return m_status_code; }
 
 signals:
   void crashedChanged(bool crashed);
@@ -87,12 +101,13 @@ protected:
   QString     m_wayland_socket;
 
   QString     m_status;
-  int         m_statusCode{0};
+  Status      m_status_code = Status::Idle;
   bool        m_status_session_running{false};
   bool        m_status_container_running{false};
   QString     m_status_wayland_socket;
   bool        m_crashed;
   int         m_exitCode;
+
 };
 
 #endif // RUNNER_H

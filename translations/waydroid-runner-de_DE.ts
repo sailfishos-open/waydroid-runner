@@ -4,12 +4,12 @@
 <context>
     <name>MainPage</name>
     <message>
-        <location filename="../qml/MainPage.qml" line="86"/>
+        <location filename="../qml/MainPage.qml" line="87"/>
         <source>Stop Waydroid Session</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qml/MainPage.qml" line="86"/>
+        <location filename="../qml/MainPage.qml" line="87"/>
         <source>Start Waydroid Session</source>
         <translation type="unfinished"></translation>
     </message>

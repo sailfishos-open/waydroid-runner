@@ -40,6 +40,7 @@
 import QtQuick 2.0
 import Sailfish.Silica 1.0
 import "."
+import org.sailfishosopen 1.0
 
 Page {
     id: root
@@ -83,13 +84,13 @@ Page {
         anchors.top: hintLabel.bottom
         anchors.topMargin: Theme.paddingLarge
         anchors.horizontalCenter: parent.horizontalCenter
-        text: runner.statusCode == -2 ? qsTr("Stop Waydroid Session") : qsTr("Start Waydroid Session")
-        visible: runner.statusCode == -2 || runner.statusCode == 0
+        text: runner.statusCode == Runner.ErrorSessionRunning ? qsTr("Stop Waydroid Session") : qsTr("Start Waydroid Session")
+        visible: runner.statusCode == Runner.ErrorSessionRunning || runner.statusCode == Runner.Idle
 
         onClicked: {
-            if (runner.statusCode == -2) {
+            if (runner.statusCode == Runner.ErrorSessionRunning) {
                 runner.stopSession();
-            } else if (runner.statusCode == 0) {
+            } else if (runner.statusCode == Runner.Idle) {
                 runner.start();
                 busyInd.running = true;
             } else {
