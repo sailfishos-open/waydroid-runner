@@ -84,13 +84,13 @@ Page {
         anchors.top: hintLabel.bottom
         anchors.topMargin: Theme.paddingLarge
         anchors.horizontalCenter: parent.horizontalCenter
-        text: runner.statusCode == Runner.ErrorSessionRunning ? qsTr("Stop Waydroid Session") : qsTr("Start Waydroid Session")
+        text: runner.statusCode == Runner.Idle ? qsTr("Start Waydroid Session") : qsTr("Stop Waydroid Session")
         visible: runner.statusCode == Runner.ErrorSessionRunning || runner.statusCode == Runner.ErrorUnexpected || runner.statusCode == Runner.Idle
 
         onClicked: {
-            if (runner.statusCode == Runner.ErrorSessionRunning) {
+            if (runner.statusCode == Runner.ErrorSessionRunning || runner.statusCode == Runner.ErrorUnexpected) {
                 runner.stopSession();
-            } else if (runner.statusCode == Runner.Idle || runner.statusCode == Runner.ErrorUnexpected) {
+            } else if (runner.statusCode == Runner.Idle) {
                 runner.start();
                 busyInd.running = true;
             } else {
