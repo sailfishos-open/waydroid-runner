@@ -70,6 +70,8 @@ int main(int argc, char *argv[])
     app->setOrganizationName("waydroid-runner");
     app->setApplicationVersion(APP_VERSION);
 
+    qmlRegisterUncreatableType<Runner>("org.sailfishosopen", 1, 0, "Runner", "Register for enum types");
+
     QQuickView *view = SailfishApp::createView();
 
     // compositor

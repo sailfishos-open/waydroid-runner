@@ -54,7 +54,7 @@ Runner::Runner(QString wayland_socket, QObject *parent):
   m_wayland_socket(wayland_socket)
 {
   m_status = tr("Initializing");
-
+  m_status_code = Status::Idle;
   // Wayland
   QProcessEnvironment env = QProcessEnvironment::systemEnvironment();
   env.insert("WAYLAND_DISPLAY", wayland_socket);
@@ -99,6 +99,7 @@ void Runner::start()
   if (!m_process_session)
     {
       m_status = tr("Session process not available, cannot start");
+      m_status_code = Status::ErrorSessionNotAvailable;
       emit statusChanged();
       return;
     }
@@ -107,12 +108,22 @@ void Runner::start()
   if (m_status_session_running)
     {
       m_status = tr("Android session started already. Stop that session and restart this application.");
+      m_status_code = Status::ErrorSessionRunning;
       emit statusChanged();
       return;
     }
 
   m_process_session->start(WAYDROID_PATH, QStringList() << "session" << "start");
   m_status = tr("Starting Android session");
+  m_status_code = Status::StartingSession;
+  emit statusChanged();
+}
+
+void Runner::stopSession()
+{
+  m_process_session->start(WAYDROID_PATH, QStringList() << "session" << "stop");
+  m_status = tr("Stopping Android session");
+  m_status_code = Status::StoppingSession;
   emit statusChanged();
 }
 
@@ -151,6 +162,7 @@ void Runner::onCheckSession()
           std::cerr << "Android session running using Wayland display: " << m_status_wayland_socket.toStdString() << "\n"
                     << "Expected value: " << m_wayland_socket.toStdString() << std::endl;
           m_status = tr("Unexpected Wayland display setting for running Android session. Stopping the execution.");
+          m_status_code = Status::ErrorUnexpected;
           emit statusChanged();
           return;
         }
@@ -158,6 +170,7 @@ void Runner::onCheckSession()
       // this called only once as timer single shots will not be requested
       m_process_fullui->start(WAYDROID_PATH, QStringList() << "show-full-ui");
       m_status = tr("Waiting for Android UI");
+      m_status_code = Status::WaitingForUI;
       emit statusChanged();
     }
   else
@@ -181,19 +194,22 @@ void Runner::onFinished(int exitCode, QProcess::ExitStatus exitStatus)
       emit crashedChanged(m_crashed);
     }
 
-  if (m_exitCode != exitCode)
+  if (m_exit_code != exitCode)
     {
-      m_exitCode = exitCode;
-      emit exitCodeChanged(m_exitCode);
+      m_exit_code = exitCode;
+      emit exitCodeChanged(m_exit_code);
     }
 
-  if (m_crashed)
+  if (m_crashed) {
     m_status = tr("Android session crashed");
-  else if (m_exitCode)
-    m_status = tr("Android session finished with the exit code %1").arg(m_exitCode);
-  else
+    m_status_code = Status::ErrorCrashed;
+  } else if (m_exit_code) {
+    m_status = tr("Android session finished with the exit code %1").arg(m_exit_code);
+    m_status_code = Status::ErrorExited;
+  } else {
     m_status = tr("Android session finished");
-
+    m_status_code = Status::Idle;
+  }
   emit statusChanged();
   emit exit();
 }

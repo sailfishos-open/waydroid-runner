@@ -40,6 +40,7 @@
 import QtQuick 2.0
 import Sailfish.Silica 1.0
 import "."
+import org.sailfishosopen 1.0
 
 Page {
     id: root
@@ -79,12 +80,34 @@ Page {
         wrapMode: Text.WordWrap
     }
 
+    Button {
+        anchors.top: hintLabel.bottom
+        anchors.topMargin: Theme.paddingLarge
+        anchors.horizontalCenter: parent.horizontalCenter
+        text: runner.statusCode == Runner.Idle ? qsTr("Start Waydroid Session") : qsTr("Stop Waydroid Session")
+        visible: runner.statusCode == Runner.ErrorSessionRunning || runner.statusCode == Runner.ErrorUnexpected || runner.statusCode == Runner.Idle
+
+        onClicked: {
+            if (runner.statusCode == Runner.ErrorSessionRunning || runner.statusCode == Runner.ErrorUnexpected) {
+                runner.stopSession();
+            } else if (runner.statusCode == Runner.Idle) {
+                runner.start();
+                busyInd.running = true;
+            } else {
+                console.log("Unexpected code", runner.statusCode);
+            }
+        }
+    }
+
     // Connections and signal handlers
     Connections {
         target: runner
         onExit: {
             appFinished = true;
             busyInd.running = false;
+        }
+        onStatusChanged: {
+            console.log("Status: ", runner.statusCode, runner.status);
         }
     }
 

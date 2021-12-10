@@ -2,6 +2,19 @@
 <!DOCTYPE TS>
 <TS version="2.1" language="de_DE">
 <context>
+    <name>MainPage</name>
+    <message>
+        <location filename="../qml/MainPage.qml" line="87"/>
+        <source>Stop Waydroid Session</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../qml/MainPage.qml" line="87"/>
+        <source>Start Waydroid Session</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
     <name>Runner</name>
     <message>
         <location filename="../src/runner.cpp" line="56"/>
@@ -14,37 +27,42 @@
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/runner.cpp" line="109"/>
+        <location filename="../src/runner.cpp" line="110"/>
         <source>Android session started already. Stop that session and restart this application.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/runner.cpp" line="115"/>
+        <location filename="../src/runner.cpp" line="117"/>
         <source>Starting Android session</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/runner.cpp" line="153"/>
+        <location filename="../src/runner.cpp" line="125"/>
+        <source>Stopping Android session</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../src/runner.cpp" line="164"/>
         <source>Unexpected Wayland display setting for running Android session. Stopping the execution.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/runner.cpp" line="160"/>
+        <location filename="../src/runner.cpp" line="172"/>
         <source>Waiting for Android UI</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/runner.cpp" line="191"/>
+        <location filename="../src/runner.cpp" line="204"/>
         <source>Android session crashed</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/runner.cpp" line="193"/>
+        <location filename="../src/runner.cpp" line="207"/>
         <source>Android session finished with the exit code %1</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/runner.cpp" line="195"/>
+        <location filename="../src/runner.cpp" line="210"/>
         <source>Android session finished</source>
         <translation type="unfinished"></translation>
     </message>
