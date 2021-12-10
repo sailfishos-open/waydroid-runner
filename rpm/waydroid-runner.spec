@@ -5,7 +5,7 @@ Name:       waydroid-runner
 %{!?qtc_make:%define qtc_make make}
 %{?qtc_builddir:%define _builddir %qtc_builddir}
 Summary:    Waydroid runner
-Version:    0.2.0
+Version:    0.3.0
 Release:    1
 Group:      Qt/Qt
 License:    BSD-3
@@ -25,6 +25,15 @@ BuildRequires:  qt5-qttools-linguist
 %description
 Wrapper for running Waydroid session on Sailfish.
 
+PackageName: Waydroid Runner
+Type: desktop-application
+Categories:
+ - System
+ - Video
+Custom:
+ - RepoType: github
+ - Repo: https://github.com/sailfishos-open/waydroid-runner
+Icon: https://raw.githubusercontent.com/sailfishos-open/waydroid-runner/master/icons/256x256/waydroid-runner.png
 
 %prep
 %setup -q -n %{name}-%{version}
