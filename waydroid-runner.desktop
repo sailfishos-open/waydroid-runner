@@ -5,6 +5,9 @@ Icon=waydroid-runner
 Exec=waydroid-runner
 Name=Waydroid
 
+[X-Sailjail]
+Sandboxing=Disabled
+
 # translation example:
 # your app name in German locale (de)
 #
