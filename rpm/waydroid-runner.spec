@@ -4,7 +4,7 @@ Name:       waydroid-runner
 %{!?qtc_qmake5:%define qtc_qmake5 %qmake5}
 %{!?qtc_make:%define qtc_make make}
 %{?qtc_builddir:%define _builddir %qtc_builddir}
-Summary:    Waydroid runner
+Summary:    Waydroid session wrapper
 Version:    0.3.0
 Release:    1
 Group:      Qt/Qt
@@ -31,9 +31,11 @@ Categories:
  - System
  - Video
 Custom:
- - RepoType: github
  - Repo: https://github.com/sailfishos-open/waydroid-runner
 Icon: https://raw.githubusercontent.com/sailfishos-open/waydroid-runner/master/icons/256x256/waydroid-runner.png
+Screenshots:
+ - https://raw.githubusercontent.com/sailfishos-open/waydroid-runner/master/screenshots/waiting-start.png
+ - https://raw.githubusercontent.com/sailfishos-open/waydroid-runner/master/screenshots/lineage.png
 
 %prep
 %setup -q -n %{name}-%{version}
