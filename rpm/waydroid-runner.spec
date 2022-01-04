@@ -36,6 +36,7 @@ Icon: https://raw.githubusercontent.com/sailfishos-open/waydroid-runner/master/i
 Screenshots:
  - https://raw.githubusercontent.com/sailfishos-open/waydroid-runner/master/screenshots/waiting-start.png
  - https://raw.githubusercontent.com/sailfishos-open/waydroid-runner/master/screenshots/lineage.png
+ - https://raw.githubusercontent.com/sailfishos-open/waydroid-runner/master/screenshots/android-version.png
 
 %prep
 %setup -q -n %{name}-%{version}
